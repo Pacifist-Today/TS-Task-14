@@ -143,54 +143,6 @@ class Bank {
 
         return true
     }
-
-
-    // private readonly salaryProvider = new SalaryProvider()
-    // private readonly creditHistoryProvider = new CreditHistoryProvider()
-    // private readonly policeDBProvider = new PoliceDBProvider()
-
-    // private readonly accounts = new Map<BankAccount["number"], BankAccount>()
-
-    // public addAccount (account: BankAccount): void {
-    //     this.accounts.set(account.number, account)
-    // }
-
-    // public removeAccount (id: BankAccount['number']): BankAccount {
-    //     let account = this.accounts.get(id)
-
-    //     if (account) {
-    //         this.accounts.delete(id)
-    //         return account
-    //     } else throw new Error("Account doesn't exist")
-    // }
-
-    // public getAccount (id: BankAccount["number"]): BankAccount {
-    //     let account = this.accounts.get(id)
-
-    //     if (!account) throw new Error("Account doesn't exist")
-
-    //     return account
-    // }
-
-    // public deposit(client: BankClient, amount: number): void {
-    //     this.accounts.get(client.accountNumber)
-    // }
-
-    // public withdraw(client: BankClient, amount: number): void {
-    //     try {
-    //         this.accounts.get(client.accountNumber)?.withdraw(amount)
-    //     } catch (error) {
-    //         console.log(error)
-    //     }
-    // }
-
-    // public getCreditDecision(client: BankClient, amount: number, duration: number): boolean {
-    //     const salary = this.salaryProvider.getAnnualSalary(client.firstName, client.lastName, 12)
-    //     const creditrating = this.creditHistoryProvider.getCreditrating(client.accountNumber)
-    //     const criminalRecord = this.policeDBProvider.isCriminal(client.firstName, client.lastName)
-
-    //     return true
-    // }
 }
 
 class SalaryProvider {
