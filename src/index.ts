@@ -61,13 +61,25 @@ class BankAccount {
     }
 
     public withdraw (amount: number) {
-        this.balance >= amount ? this.balance - amount : new Error (`${this.holder}, you don't have enough money to withdraw`)
+        return this.balance >= amount
+            ?
+            this.balance - amount
+            :
+            new Error (`${this.holder}, you don't have enough money to withdraw`)
     }
 }
 
 class Bank {
+    private static instance: Bank
 
-    private readonly accounts = new Map<BankAccount["holderName"], BankAccount[]>()
+    accounts = new Map<BankAccount["holderName"], BankAccount[]>()
+
+    public static getAllClients (): Bank {
+        if (!Bank.instance) {
+            Bank.instance = new Bank()
+        }
+        return Bank.instance
+    }
 
     private readonly salaryProvider = new SalaryProvider()
     private readonly creditHistoryProvider = new CreditHistoryProvider()
@@ -106,10 +118,6 @@ class Bank {
         return client
     }
 
-    public getAllClients (): Map<BankAccount["holderName"], BankAccount[]> {
-        return this.accounts
-    }
-
     public deposit(client: BankClient, amount: number, iban: string): void {
         const bankClient = this.accounts.get(`${client.firstName} ${client.lastName}`)
 
@@ -138,7 +146,7 @@ class Bank {
 
     public getCreditDecision(client: BankClient, amount: number, duration: number): boolean {
         const salary = this.salaryProvider.getAnnualSalary(client.firstName, client.lastName, 12)
-        const creditrating = this.creditHistoryProvider.getCreditrating(client.accountNumber)
+        const creditrating = this.creditHistoryProvider.getCreditrating(client.firstName, client.lastName)
         const criminalRecord = this.policeDBProvider.isCriminal(client.firstName, client.lastName)
 
         return true
@@ -147,20 +155,43 @@ class Bank {
 
 class SalaryProvider {
     public getAnnualSalary(firstName: string, lastName: string, duration: number): number {
-        const accounts = Bank.getAllClients
+        const clients = Bank.getAllClients()
 
-        return 50
+        const client = clients.getClient(`${firstName} ${lastName}`)
+
+        if (!client) throw new Error("person wasn't found")
+
+        // some magic code
+
+        return 50000
     }
 }
 
 class CreditHistoryProvider {
-    public getCreditrating(bankAccountNumber: string): number {
-        return 100
+    public getCreditrating(firstName: string, lastName: string): number {
+        const clients = Bank.getAllClients()
+
+        const client = clients.getClient(`${firstName} ${lastName}`)
+
+        if (!client) throw new Error("person wasn't found")
+
+        // some wizzard stuff
+
+        return 790
     }
 }
 
 class PoliceDBProvider {
     public isCriminal(firstName: string, lastName: string): boolean {
+
+        const clients = Bank.getAllClients()
+
+        const client = clients.getClient(`${firstName} ${lastName}`)
+
+        if (!client) throw new Error("person wasn't found")
+
+        // some police things
+
         return false
     }
 }
